@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MissingLocationView: View {
-    @State var addLocationPopOverVisible = false
+    @State private var addLocationPopOverVisible = false
 
     var body: some View {
         VStack {

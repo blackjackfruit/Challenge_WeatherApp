@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-protocol AssetStorage {
-    func predownloadAssets()
-    func retrieveImageAsset(name: String) async -> UIImage?
-}
-
 class ConcreteOpenWeatherMapAssetStorage: AssetStorage {
     static let shared = ConcreteOpenWeatherMapAssetStorage()
-    var cache: NSCache<NSString, UIImage> = NSCache<NSString, UIImage>()
+    private var cache: NSCache<NSString, UIImage> = NSCache<NSString, UIImage>()
+    private let network: Network
+    
+    init(network: Network = ConcreteNetwork.shared) {
+        self.network = network
+    }
     
     let imageNames = [
         "01d",
@@ -78,7 +78,7 @@ class ConcreteOpenWeatherMapAssetStorage: AssetStorage {
             return nil
         }
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
+            let (data, _) = try await network.execute(request: URLRequest(url: url))
             // TODO: Typically check response value here to return appropriate error
             guard let image = UIImage(data: data) else {
                 return nil

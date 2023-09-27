@@ -10,8 +10,8 @@ import Combine
 
 class ContentViewModel: ObservableObject {
     @Published var currentLocation: Location? = nil
-    let userSettings: UserSettings
-    var cancellable: AnyCancellable?
+    private let userSettings: UserSettings
+    private var cancellable: AnyCancellable?
     init(
         userSettings: UserSettings = ConcreteUserSettings.shared,
         assetStorage: AssetStorage = ConcreteOpenWeatherMapAssetStorage.shared

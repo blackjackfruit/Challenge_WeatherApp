@@ -13,8 +13,8 @@ class WeatherViewModel: ObservableObject {
     @Published var weatherInformation: WeatherInformation?
     @Published var errorMessage: String?
     
-    let weather: WeatherAPIs
-    var cancellable: AnyCancellable?
+    private let weather: WeatherAPIs
+    private var cancellable: AnyCancellable?
     
     init(weather: WeatherAPIs = OpenWeatherMap.shared) {
         self.weather = weather

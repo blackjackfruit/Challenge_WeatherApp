@@ -9,8 +9,8 @@ import SwiftUI
 
 struct UpdateLocationView: View {
     @Binding var viewDisplayed: Bool
-    @State var locationText: String = ""
-    @StateObject var viewModel = UpdateLocationViewModel()
+    @State private var locationText: String = ""
+    @StateObject private var viewModel = UpdateLocationViewModel()
     
     var body: some View {
         if viewModel.didUpdateLocation {

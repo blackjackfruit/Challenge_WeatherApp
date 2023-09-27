@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct WeatherView: View {
-    let location: Location
-    
-    @State var updateViewLocation: Bool = false
-    
-    @StateObject var viewModel = WeatherViewModel()
+    private let location: Location
+    @State private var updateViewLocation: Bool = false
+    @StateObject private var viewModel = WeatherViewModel()
     
     init(location: Location) {
         self.location = location

@@ -16,16 +16,19 @@ class UpdateLocationViewModel: ObservableObject {
     @Published var isSearchingForLocation: Bool = false
     @Published var locationDisabled = false
     
-    let locationManager: LocationManager = ConcreteLocationManager()
-    let userSettings: UserSettings
-    let geocoding: Geocoding
-    var cancellable: AnyCancellable?
+    private let locationManager: LocationManager
+    private let userSettings: UserSettings
+    private let geocoding: Geocoding
+    private var cancellable: AnyCancellable?
+
     init(
         userSettings: UserSettings = ConcreteUserSettings.shared,
-        geocoding: Geocoding = ConcreteGeocodingForOpenWeatherMap.shared
+        geocoding: Geocoding = ConcreteGeocodingForOpenWeatherMap.shared,
+        locationManager: LocationManager = ConcreteLocationManager()
     ) {
         self.userSettings = userSettings
         self.geocoding = geocoding
+        self.locationManager = locationManager
     }
     
     func listenToPassthroughChanges(for passthrough: PassthroughSubject<CLLocation, AppError>, shouldDisableLocation: Bool) {

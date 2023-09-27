@@ -15,10 +15,10 @@ enum UserSettingError: Error {
 }
 
 class ConcreteUserSettings: UserSettings {
-    private let secureStorage: SecureStorage
     static let shared = ConcreteUserSettings()
     let publishers = PassthroughSubject<Location?, Never>()
     
+    private let secureStorage: SecureStorage
     private init(secureStorage: SecureStorage = ConcreteSecureStorage()) {
         self.secureStorage = secureStorage
     }

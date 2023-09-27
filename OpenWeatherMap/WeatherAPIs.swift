@@ -88,12 +88,17 @@ class OpenWeatherRequestBuilder {
 
 class OpenWeatherMap: ObservableObject, WeatherAPIs {
     var currentWeather: PassthroughSubject<WeatherInformation, Error> = PassthroughSubject<WeatherInformation, Error>()
-    
     static let shared = OpenWeatherMap()
+    
     private let assetStorage: AssetStorage
+    private let network: Network
 
-    init(assetStorage: AssetStorage = ConcreteOpenWeatherMapAssetStorage.shared) {
+    private init(
+        assetStorage: AssetStorage = ConcreteOpenWeatherMapAssetStorage.shared,
+        network: Network = ConcreteNetwork.shared
+    ) {
         self.assetStorage = assetStorage
+        self.network = network
     }
     
     func queryWeather(for endpoint: Endpoint, type: WeatherTypes) {
@@ -103,7 +108,7 @@ class OpenWeatherMap: ObservableObject, WeatherAPIs {
         }
         Task { // TODO: Need to ensure that this task only executes once and not multiple times
             do {
-                let (data, _) = try await URLSession.shared.data(for: request)
+                let (data, _) = try await network.execute(request: request)
                 // TODO: Do checks here to return appropriate error if not 2xx response
                 
                 let weatherInformationServer = try JSONDecoder().decode(WeatherInformationServer.self, from: data)
